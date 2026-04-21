@@ -1,0 +1,46 @@
+<header class="bg-dark py-5 mb-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Venta de Garage</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Encuentra tesoros a precios de regalo o vende lo que ya no usas.</p>
+        </div>
+    </div>
+</header>
+
+<section class="container mb-5">
+    <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
+        
+        {{#if productos}}
+            {{#each productos}}
+            <div class="col mb-5">
+                <div class="card h-100 shadow-sm">
+                    <img class="card-img-top" src="{{this.url_imagen}}" alt="{{this.nombre}}" style="height: 200px; object-fit: cover;" />
+                    
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{this.nombre}}</h5>
+                            <span class="text-muted text-decoration-line-through">$ {{this.precio_original}}</span>
+                            <span class="text-success fw-bold">$ {{this.precio_oferta}}</span>
+                        </div>
+                        <p class="mt-2 small text-muted text-center">{{this.descripcion}}</p>
+                    </div>
+                    
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="/producto/{{this.id}}">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        {{else}}
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    Aún no hay productos publicados. ¡Sé el primero en vender algo!
+                </div>
+                <a href="/register" class="btn btn-primary">Empezar a vender</a>
+            </div>
+        {{/if}}
+
+    </div>
+</section>

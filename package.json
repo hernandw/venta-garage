@@ -4,7 +4,7 @@
   "description": "Breve descripción del proyecto y su objetivo.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.js",
+    "dev": "nodemon --env-file=.env ./src/index.js",
     "start": "node ./src/index.js"
   },
   "keywords": [],
