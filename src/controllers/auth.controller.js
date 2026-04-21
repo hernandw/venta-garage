@@ -19,6 +19,11 @@ const controller = {
       title: "Crea tu cuenta",
     });
   },
+  showAdmin: (req, res) => {
+    res.render("admin", {
+      title: "Panel de Administración",
+    });
+  },
   register: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -44,12 +49,13 @@ const controller = {
       if (!validPassword) return res.status(401).send("contraseña incorrecta");
       //Generamos el token
       const token = jwt.sign(
-        { email: user.email },
+        { id: user.id, email: user.email },
         process.env.JWT_SECRET_KEY,
-        { expiresIn: "1h" },
+        { expiresIn: "1m" },
       );
       //guardamos el token y redirigimos
-      
+      res.cookie("token", token, { httpOnly: true });
+      res.redirect("/admin");
     } catch (error) {
       res.status(500).send("Error al loguearse");
     }
