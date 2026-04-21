@@ -1,6 +1,7 @@
 import express from 'express'
 import exphbs from 'express-handlebars'
 import appRouter from './routes/views.routes.js'
+import cookieParser from 'cookie-parser';
 import path from 'path'
 
 const app = express()
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 4005
 //Middleware
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(cookieParser())
 
 //Static Files
 app.use(express.static(path.join(__dirname, "src/public")))

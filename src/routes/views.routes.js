@@ -11,5 +11,6 @@ router.get("/login", controller.showLogin);
 
 //Vista de Registro
 router.get("/register", controller.showRegister);
+router.post("/api/auth/register", controller.register)
 
 export default router;
