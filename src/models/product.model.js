@@ -21,6 +21,20 @@ const modelProduct = {
     const { rows } = await pool.query(query, values);
     return rows[0];
   },
+  getAllProducts: async () => {
+    const query = `
+        SELECT p.*, u.email as vendedor 
+        FROM productos p 
+        JOIN usuarios u ON p.usuario_id = u.id 
+        ORDER BY p.id DESC`;
+    const { rows } = await pool.query(query);
+    return rows;
+  },
+  getProductsByUser: async(usuario_id)=>{
+    const query = "SELECT * FROM productos WHERE usuario_id = $1 ORDER BY id DESC";
+    const { rows } = await pool.query(query, [usuario_id])
+    return rows
+  }
 };
 
 export default modelProduct;

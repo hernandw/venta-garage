@@ -1,12 +1,15 @@
 import model from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import modelProduct from "../models/product.model.js";
 import bcrypt from "bcryptjs";
 import "dotenv/config";
 
 const controller = {
-  showHome: (req, res) => {
+  showHome: async(req, res) => {
+    const productos = await modelProduct.getAllProducts()
     res.render("home", {
       title: "Inicio",
+      productos
     });
   },
   showLogin: (req, res) => {
@@ -19,9 +22,13 @@ const controller = {
       title: "Crea tu cuenta",
     });
   },
-  showAdmin: (req, res) => {
+  showAdmin: async(req, res) => {
+    const productos = await modelProduct.getProductsByUser(req.usuario.id)
     res.render("admin", {
+      
       title: "Panel de Administración",
+      usuario: req.usuario,
+      productos
     });
   },
   logout: (req, res)=>{

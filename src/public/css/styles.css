@@ -1,0 +1,116 @@
+/* Variables de color para Triviamaniaes */
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f39c12;
+    --dark-bg: #1a1a1a;
+    --light-bg: #f8f9fa;
+    --text-main: #2c3e50;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --card-hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* General */
+body {
+    background-color: var(--light-bg);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header del Home */
+header.bg-dark {
+    background: linear-gradient(135deg, #2c3e50 0%, #000000 100%) !important;
+    border-bottom: 5px solid var(--secondary-color);
+}
+
+/* Tarjetas de Productos (Home) */
+.card {
+    border: none !important;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-hover-shadow) !important;
+}
+
+.card-img-top {
+    transition: transform 0.5s ease;
+    object-fit: cover;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Precios */
+.text-decoration-line-through {
+    font-size: 0.9rem;
+    color: #95a5a6 !important;
+}
+
+.text-success.fw-bold {
+    font-size: 1.25rem;
+    color: var(--success-color) !important;
+}
+
+/* Panel de Administración */
+.table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.table thead {
+    background-color: #e9ecef;
+}
+
+.table img {
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+/* Botones con estilo */
+.btn-success {
+    background-color: var(--success-color);
+    border: none;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background-color: #219150;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+/* Formularios de Login / Registro */
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.border-primary.border-4 {
+    border-color: var(--secondary-color) !important; /* Usamos naranja para resaltar */
+}
+
+/* Vista de Detalle */
+.img-fluid.rounded.shadow {
+    border: 10px solid white;
+    transition: transform 0.3s ease;
+}
+
+.img-fluid.rounded.shadow:hover {
+    transform: rotate(1deg);
+}
+
+/* Estilo para los inputs */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+}

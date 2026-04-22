@@ -25,7 +25,7 @@ export const uploadsProduct = async (req, res) => {
     await foto.mv(uploadPath);
 
     //Guardamos en la BBDD la ruta que usara la URL
-    const url_imagen = `upload/${nombreArchivo}`;
+    const url_imagen = `uploads/${nombreArchivo}`;
     //guardamos todos  los datos en la BBDD
     await modelProduct.createProduct(
       nombre,
