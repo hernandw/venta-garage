@@ -1,1 +1,122 @@
-<h2>Admin Page</h2>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div>
+            <h1 class="display-6">Panel de Administración</h1>
+            <p class="text-muted">Bienvenido, <strong>{{usuario.email}}</strong></p>
+        </div>
+        <a href="/api/auth/logout" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0 bg-light p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-1">Tus Productos</h3>
+                        <p class="mb-0 text-muted">Gestiona los artículos que tienes publicados en la venta de garage.
+                        </p>
+                    </div>
+                    <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#modalProducto">
+                        <i class="bi bi-plus-circle"></i> + Publicar Nuevo Producto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 100px;">Imagen</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if productos}}
+                    {{#each productos}}
+                    <tr>
+                        <td>
+                            <img src="{{this.url_imagen}}" alt="{{this.nombre}}" class="rounded shadow-sm"
+                                style="width: 60px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td>
+                            <h6 class="mb-0">{{this.nombre}}</h6>
+                            <small class="text-muted">ID: #{{this.id}}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-success text-white px-3 py-2">$ {{this.precio_oferta}}</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="/api/productos/admin/editar/{{this.id}}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+
+                                <a href="/api/productos/delete/{{this.id}}" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('¿Estás seguro?')">
+                                    Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{else}}
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <p class="mb-0">No tienes productos publicados todavía.</p>
+                            <small>Haz clic en "Publicar Nuevo Producto" para empezar.</small>
+                        </td>
+                    </tr>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="modalProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="/api/productos/upload" method="POST" enctype="multipart/form-data" class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalProductoLabel">Nuevo Artículo para la Venta</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nombre del Producto</label>
+                    <input type="text" name="nombre" class="form-control" placeholder="Ej. Bicicleta de montaña"
+                        required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Precio Original</label>
+                        <input type="number" name="precio_original" class="form-control" placeholder="0" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Precio Oferta</label>
+                        <input type="number" name="precio_oferta" class="form-control" placeholder="0" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="3"
+                        placeholder="Cuéntanos más del producto..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Imagen del Producto</label>
+                    <input type="file" name="foto" class="form-control" accept="image/*" required>
+                    <div class="form-text text-muted">Solo formatos de imagen (JPG, PNG, GIF). Máx 2MB.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary px-4">Publicar Ahora</button>
+            </div>
+        </form>
+    </div>
+</div>

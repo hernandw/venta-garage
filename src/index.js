@@ -1,7 +1,9 @@
 import express from 'express'
 import exphbs from 'express-handlebars'
 import appRouter from './routes/views.routes.js'
+import productRouter from './routes/product.routes.js'
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
 import path from 'path'
 
 const app = express()
@@ -32,9 +34,18 @@ app.engine(
 );
 
 //configuración de express-uploads
+app.use(
+  fileUpload({
+    limits: { fileSize: 2 * 1024 * 1024 }, // Límite de 2MB
+    abortOnLimit: true,
+    responseOnLimit: "La imagen es demasiado pesada (máximo 2MB).",
+  }),
+);
+
 
 //Rutas
 app.use('/', appRouter)
+app.use('/api/productos', productRouter)
 
 app.listen(PORT, ()=>{
     console.log(`🚀 Server Running on port http://localhost:${PORT}`)

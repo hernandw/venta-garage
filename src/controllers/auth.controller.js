@@ -24,6 +24,10 @@ const controller = {
       title: "Panel de Administración",
     });
   },
+  logout: (req, res)=>{
+    res.clearCookie("token")
+    res.redirect("/")
+  },
   register: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -51,7 +55,7 @@ const controller = {
       const token = jwt.sign(
         { id: user.id, email: user.email },
         process.env.JWT_SECRET_KEY,
-        { expiresIn: "1m" },
+        { expiresIn: "1h" },
       );
       //guardamos el token y redirigimos
       res.cookie("token", token, { httpOnly: true });
