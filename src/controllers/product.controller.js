@@ -42,17 +42,58 @@ export const uploadsProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async(req, res)=>{
+export const deleteProduct = async (req, res) => {
   try {
-    const { id} = req.params
-    const usuario_id = req.usuario.id //Obtenido del JWT por el middleware
-    const productoEliminado = await modelProduct.deleteProductById(id, usuario_id)
-    if(!productoEliminado){
-      return res.status(404).send("producto no encontrado o no autorizado")
+    const { id } = req.params;
+    const usuario_id = req.usuario.id; //Obtenido del JWT por el middleware
+    const productoEliminado = await modelProduct.deleteProductById(
+      id,
+      usuario_id,
+    );
+    if (!productoEliminado) {
+      return res.status(404).send("producto no encontrado o no autorizado");
     }
-    res.redirect("/")
+    res.redirect("/");
   } catch (error) {
     console.error(error);
     res.status(500).send("Error al eliminar el producto");
   }
-}
+};
+
+export const editProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nombre, precio_original, precio_oferta, descripcion, url_actual } = req.body;
+    let url_imagen = url_actual; 
+
+    if (req.files && req.files.foto) {
+      const { foto } = req.files;
+      const nombreArchivo = `${Date.now()}-${foto.name}`;
+      
+      // Ajustamos la ruta para que apunte a src/public/uploads 
+      const uploadPath = path.join(__dirname, "src/public/uploads/", nombreArchivo);
+      
+      await foto.mv(uploadPath);
+      url_imagen = `/uploads/${nombreArchivo}`;
+    }
+
+    // Ahora enviamos el objeto 'data' que el modelo espera 
+    const resultado = await modelProduct.updateProductById(id, req.usuario.id, {
+      nombre,
+      precio_original,
+      precio_oferta,
+      descripcion,
+      url_imagen
+    });
+
+    if (!resultado) {
+      return res.status(403).send("No tienes permisos para editar este producto.");
+    }
+
+    res.redirect("/admin");
+  } catch (error) {
+    console.error("Error al actualizar:", error);
+    res.status(500).send("Error al actualizar el producto");
+  }
+};
+

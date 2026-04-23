@@ -1,5 +1,5 @@
 import express from "express"
-import { uploadsProduct, deleteProduct } from "../controllers/product.controller.js"
+import { uploadsProduct, deleteProduct, editProduct } from "../controllers/product.controller.js"
 import controller from '../controllers/auth.controller.js'
 import { estaAutenticado } from "../middleware/auth.middleware.js"
 
@@ -12,6 +12,8 @@ router.get("/detalle/:id", controller.showProductDetail)
 router.get("/delete/:id", estaAutenticado, deleteProduct)
 
 router.get("/admin/editar/:id", estaAutenticado, controller.showEditProductForm)
+
+router.post("/edit/:id", estaAutenticado, editProduct)
 
 
 
