@@ -30,20 +30,26 @@ const modelProduct = {
     const { rows } = await pool.query(query);
     return rows;
   },
-  getProductsByUser: async(usuario_id)=>{
-    const query = "SELECT * FROM productos WHERE usuario_id = $1 ORDER BY id DESC";
-    const { rows } = await pool.query(query, [usuario_id])
-    return rows
+  getProductsByUser: async (usuario_id) => {
+    const query =
+      "SELECT * FROM productos WHERE usuario_id = $1 ORDER BY id DESC";
+    const { rows } = await pool.query(query, [usuario_id]);
+    return rows;
   },
-  getProductByIdWithVendor: async(id)=>{
+  getProductByIdWithVendor: async (id) => {
     const query = `
     SELECT p.*, u.email as vendedor 
         FROM productos p 
         JOIN usuarios u ON p.usuario_id = u.id 
         WHERE p.id = $1`;
-    
-const { rows } = await pool.query(query, [id])
-return rows[0] //retornamos el objeto
+
+    const { rows } = await pool.query(query, [id]);
+    return rows[0]; //retornamos el objeto
+  },
+  deleteProductById: async(id, usuario_id)=>{
+    const query = "DELETE FROM productos WHERE id = $1 AND usuario_id = $2 RETURNING *";
+    const { rows} = await pool.query(query, [id, usuario_id])
+    return rows[0]
   }
 };
 

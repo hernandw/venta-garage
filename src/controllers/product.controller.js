@@ -41,3 +41,18 @@ export const uploadsProduct = async (req, res) => {
     res.status(500).send("Error al guardar el producto");
   }
 };
+
+export const deleteProduct = async(req, res)=>{
+  try {
+    const { id} = req.params
+    const usuario_id = req.usuario.id //Obtenido del JWT por el middleware
+    const productoEliminado = await modelProduct.deleteProductById(id, usuario_id)
+    if(!productoEliminado){
+      return res.status(404).send("producto no encontrado o no autorizado")
+    }
+    res.redirect("/")
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al eliminar el producto");
+  }
+}

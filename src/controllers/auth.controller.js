@@ -47,6 +47,18 @@ const controller = {
       res.status(500).send("Error al cargar el detalle del producto");
     }
   },
+  showEditProductForm: async(req, res)=>{
+    const {id } = req.params
+    const usuario_id = req.usuario.id //extraemos del JWT a través de su middleware
+    const producto = await modelProduct.getProductByIdWithVendor(id)
+    if (!producto || producto.usuario_id !== usuario_id) {
+      return res.status(404).send("Producto no encontrado o no autorizado");
+    }
+    res.render("edit-product", {
+      title: "Editar Producto",
+      producto
+    })
+  },
   logout: (req, res) => {
     res.clearCookie("token");
     res.redirect("/");
