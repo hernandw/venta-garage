@@ -5,11 +5,11 @@ import bcrypt from "bcryptjs";
 import "dotenv/config";
 
 const controller = {
-  showHome: async(req, res) => {
-    const productos = await modelProduct.getAllProducts()
+  showHome: async (req, res) => {
+    const productos = await modelProduct.getAllProducts();
     res.render("home", {
       title: "Inicio",
-      productos
+      productos,
     });
   },
   showLogin: (req, res) => {
@@ -22,18 +22,34 @@ const controller = {
       title: "Crea tu cuenta",
     });
   },
-  showAdmin: async(req, res) => {
-    const productos = await modelProduct.getProductsByUser(req.usuario.id)
+  showAdmin: async (req, res) => {
+    const productos = await modelProduct.getProductsByUser(req.usuario.id);
     res.render("admin", {
-      
       title: "Panel de Administración",
       usuario: req.usuario,
-      productos
+      productos,
     });
   },
-  logout: (req, res)=>{
-    res.clearCookie("token")
-    res.redirect("/")
+  showProductDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const producto = await modelProduct.getProductByIdWithVendor(id);
+      
+      if (!producto) {
+        return res.status(404).send("Producto no encontrado");
+      }
+      res.render("detalle-producto", {
+        title: "Detalle Productos",
+        producto,
+      });
+    } catch (error) {
+      console.error("Error al cargar el detalle del producto:", error);
+      res.status(500).send("Error al cargar el detalle del producto");
+    }
+  },
+  logout: (req, res) => {
+    res.clearCookie("token");
+    res.redirect("/");
   },
   register: async (req, res) => {
     try {
